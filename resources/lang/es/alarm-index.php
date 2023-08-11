@@ -1,0 +1,16 @@
+<?php return [
+    'config' => 'Configuración',
+    'create' => 'Crear',
+    'created_at' => 'Creada',
+    'enabled' => 'Activa',
+    'filter' => 'Filtrar...',
+    'meta-title' => 'Alarmas',
+    'name' => 'Nombre',
+    'notifications' => 'Notificaciones',
+    'notifications-denied' => 'Notificaciones Desactivadas',
+    'notifications-enable' => 'Activar Notificaciones',
+    'notifications-granted' => 'Notificaciones Activadas',
+    'telegram' => 'Telegram',
+    'type' => 'Tipo',
+    'vehicles' => 'Vehículos',
+];

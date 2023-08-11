@@ -1,0 +1,17 @@
+<?php return [
+    'alarms' => 'Alarmas',
+    'delete-button' => 'Borrar',
+    'delete-success' => 'El viaje ha sido borrado correctamente',
+    'export' => 'Exportar',
+    'map' => 'Mapa',
+    'merge' => 'Unir',
+    'name' => 'Nombre',
+    'next' => 'Siguiente',
+    'positions' => 'Coordenadas',
+    'previous' => 'Anterior',
+    'save' => 'Guardar',
+    'shared' => 'Compartir Viaje',
+    'shared-url' => 'URL Pública:',
+    'stats' => 'Estadísticas',
+    'success' => 'El viaje ha sido actualizado correctamente',
+];

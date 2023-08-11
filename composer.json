@@ -1,0 +1,142 @@
+{
+    "name": "eusonlito/gps-tracker",
+    "type": "project",
+    "description": "GPS Tracker platform for Sinotrack ST-90x and OsmAnd devices built with Laravel 10 + PHP 8.1 and MySQL 8. Plataforma GPS Tracker para dispositivos Sinotrack ST-90x y OsmAnd creada con Laravel 10 + PHP 8.1 y MySQL 8.",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "composer/composer": "^2.5.1",
+        "doctrine/dbal": "^3.5.3",
+        "eusonlito/captcha": "^1.1.1",
+        "eusonlito/laravel-meta": "^3.2.3",
+        "laravel/framework": "^10.0",
+        "laravel/helpers": "^1.6",
+        "predis/predis": "^2.1.1",
+        "sentry/sentry-laravel": "^3.2",
+        "sibyx/phpgpx": "^1.2.1"
+    },
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.7",
+        "brianium/paratest": "^7.1",
+        "friendsofphp/php-cs-fixer": "^3.14.3",
+        "laravel/pint": "^1.4.1",
+        "nunomaduro/collision": "^7.0",
+        "nunomaduro/larastan": "^2.4",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "phpunit/phpunit": "^10.0",
+        "psalm/plugin-laravel": "^2.7",
+        "spatie/laravel-ignition": "^2.0",
+        "vimeo/psalm": "^5.6"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": true
+        }
+    },
+    "autoload": {
+        "classmap": [
+            "database/migrations"
+        ],
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\": "database/"
+        },
+        "files": [
+            "app/Services/Helper/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "scripts": {
+        "post-install-cmd": [
+            "@composer dump-autoload",
+            "@composer artisan-cache --ansi"
+        ],
+
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+
+        "artisan-cache-clear": [
+            "@php artisan optimize:clear --ansi"
+        ],
+
+        "artisan-cache": [
+            "@php artisan optimize --ansi"
+        ],
+
+        "artisan-server-start-all": [
+            "@php artisan server:start:all --reset || true"
+        ],
+
+        "env-version": [
+            "sed -i 's/CACHE_VERSION=.*/CACHE_VERSION='$(head -c 16 /dev/urandom | md5sum | head -c 32)'/' .env"
+        ],
+
+        "deploy": [
+            "rm -f bootstrap/cache/*.php",
+            "git checkout .",
+            "git pull",
+            "@composer env-version --ansi",
+            "@composer install --no-dev --optimize-autoloader --classmap-authoritative --ansi",
+            "@php artisan migrate --force --ansi",
+            "@php artisan db:seed --force --ansi --class=\"Database\\Seeders\\Database\"",
+            "@php artisan maintenance:migration:clean",
+            "@php artisan server:manifest:generate",
+            "@php artisan queue:restart --ansi",
+            "@composer artisan-server-start-all"
+        ],
+
+        "deploy-dev": [
+            "rm -f bootstrap/cache/*.php",
+            "@composer install --optimize-autoloader --classmap-authoritative --ansi",
+            "@php artisan migrate --force --ansi",
+            "@php artisan db:seed --class=\"Database\\Seeders\\Database\"",
+            "@php artisan maintenance:migration:clean",
+            "@php artisan server:manifest:generate",
+            "@composer artisan-cache-clear",
+            "@php artisan queue:restart --ansi",
+            "@composer artisan-server-start-all"
+        ],
+
+        "deploy-docker": [
+            "rm -f bootstrap/cache/*.php",
+            "@composer install --no-dev --optimize-autoloader --classmap-authoritative --ansi",
+            "@php artisan migrate --force --ansi",
+            "@php artisan db:seed --class=\"Database\\Seeders\\Database\" --force",
+            "@php artisan maintenance:migration:clean",
+            "@php artisan server:manifest:generate",
+            "@php artisan queue:restart --ansi",
+            "@composer artisan-server-start-all"
+        ],
+
+        "fix": [
+            "@php ./vendor/bin/php-cs-fixer fix -v --ansi",
+            "@php ./vendor/bin/pint -v"
+        ],
+
+        "quality": [
+            "@php ./vendor/bin/phpstan analyse --ansi || true",
+            "@php ./vendor/bin/psalm || true"
+        ],
+
+        "translation": [
+            "@php artisan translation:fix --ansi",
+            "@php artisan translation:fill --ansi",
+            "@php artisan translation:clean --ansi",
+            "@php artisan translation:unused --ansi",
+            "git checkout resources/lang/*/validation.php"
+        ]
+    }
+}
